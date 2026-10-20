@@ -86,6 +86,11 @@ export interface AnthropicServiceTierOptions {
    * Determines whether to use priority capacity (if available) or standard capacity for this request.
    */
   service_tier?: 'auto' | 'standard_only'
+  /**
+   * Fast mode: up to 2.5x output tokens per second at premium pricing, on models that support it.
+   * https://platform.claude.com/docs/en/build-with-claude/fast-mode
+   */
+  speed?: 'fast' | 'standard'
 }
 
 export interface AnthropicStopSequencesOptions {
