@@ -1,5 +1,11 @@
 # @tanstack/ai-anthropic
 
+## 0.16.5
+
+### Patch Changes
+
+- Forward top-level `cache_control` for automatic prompt caching and expose it in every Claude model's options.
+
 ## 0.16.3
 
 ### Patch Changes

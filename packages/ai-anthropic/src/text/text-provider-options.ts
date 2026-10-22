@@ -41,6 +41,10 @@ export interface AnthropicSystemPromptMetadata {
   cache_control?: CacheControlEphemeral
 }
 
+export interface AnthropicCacheControlOptions {
+  cache_control?: CacheControlEphemeral
+}
+
 export interface AnthropicContainerOptions {
   /**
    * Container identifier for reuse across requests.
@@ -288,7 +292,8 @@ Required range: x >= 0
   max_tokens?: number
 }
 
-export type ExternalTextProviderOptions = AnthropicContainerOptions &
+export type ExternalTextProviderOptions = AnthropicCacheControlOptions &
+  AnthropicContainerOptions &
   AnthropicContextManagementOptions &
   AnthropicMCPOptions &
   AnthropicServiceTierOptions &

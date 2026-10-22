@@ -10,7 +10,10 @@
 import { beforeAll, describe, expectTypeOf, it } from 'vitest'
 import { chat } from '@tanstack/ai'
 import { anthropicText } from '../src'
-import type { AnthropicChatModelProviderOptionsByName } from '../src'
+import type {
+  AnthropicChatModel,
+  AnthropicChatModelProviderOptionsByName,
+} from '../src'
 
 // Set a dummy API key so adapter construction does not throw at runtime.
 // These tests only exercise compile-time type gating; no network calls are made.
@@ -19,6 +22,12 @@ beforeAll(() => {
 })
 
 describe('Anthropic per-model chat modelOptions gating', () => {
+  it('accepts automatic prompt caching for every Claude model', () => {
+    expectTypeOf<AnthropicChatModelProviderOptionsByName[AnthropicChatModel]>()
+      .toHaveProperty('cache_control')
+      .toMatchTypeOf<{ type: 'ephemeral'; ttl?: '5m' | '1h' } | undefined>()
+  })
+
   describe('claude-opus-4-6 — full superset (thinking + priority tier + all option groups)', () => {
     it('accepts every option group', () => {
       chat({
