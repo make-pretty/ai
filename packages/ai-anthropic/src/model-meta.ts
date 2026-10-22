@@ -2,6 +2,7 @@ import type {
   AnthropicAdaptiveOnlyThinkingOptions,
   AnthropicAdaptiveOrDisabledThinkingOptions,
   AnthropicAdaptiveThinkingOptions,
+  AnthropicCacheControlOptions,
   AnthropicContainerOptions,
   AnthropicContextManagementOptions,
   AnthropicMCPOptions,
@@ -95,6 +96,7 @@ const CLAUDE_OPUS_4_6 = {
   },
 } as const satisfies ModelMeta<
   AnthropicContainerOptions &
+    AnthropicCacheControlOptions &
     AnthropicContextManagementOptions &
     AnthropicMCPOptions &
     AnthropicServiceTierOptions &
@@ -134,6 +136,7 @@ const CLAUDE_OPUS_4_5 = {
   },
 } as const satisfies ModelMeta<
   AnthropicContainerOptions &
+    AnthropicCacheControlOptions &
     AnthropicContextManagementOptions &
     AnthropicMCPOptions &
     AnthropicServiceTierOptions &
@@ -176,6 +179,7 @@ const CLAUDE_SONNET_4_6 = {
   },
 } as const satisfies ModelMeta<
   AnthropicContainerOptions &
+    AnthropicCacheControlOptions &
     AnthropicContextManagementOptions &
     AnthropicMCPOptions &
     AnthropicServiceTierOptions &
@@ -215,6 +219,7 @@ const CLAUDE_SONNET_4_5 = {
   },
 } as const satisfies ModelMeta<
   AnthropicContainerOptions &
+    AnthropicCacheControlOptions &
     AnthropicContextManagementOptions &
     AnthropicMCPOptions &
     AnthropicServiceTierOptions &
@@ -254,6 +259,7 @@ const CLAUDE_HAIKU_4_5 = {
   },
 } as const satisfies ModelMeta<
   AnthropicContainerOptions &
+    AnthropicCacheControlOptions &
     AnthropicContextManagementOptions &
     AnthropicMCPOptions &
     AnthropicServiceTierOptions &
@@ -293,6 +299,7 @@ const CLAUDE_OPUS_4_1 = {
   },
 } as const satisfies ModelMeta<
   AnthropicContainerOptions &
+    AnthropicCacheControlOptions &
     AnthropicContextManagementOptions &
     AnthropicMCPOptions &
     AnthropicServiceTierOptions &
@@ -336,6 +343,7 @@ const CLAUDE_OPUS_4_7 = {
   },
 } as const satisfies ModelMeta<
   AnthropicContainerOptions &
+    AnthropicCacheControlOptions &
     AnthropicContextManagementOptions &
     AnthropicMCPOptions &
     AnthropicServiceTierOptions &
@@ -379,6 +387,7 @@ const CLAUDE_OPUS_4_8 = {
   },
 } as const satisfies ModelMeta<
   AnthropicContainerOptions &
+    AnthropicCacheControlOptions &
     AnthropicContextManagementOptions &
     AnthropicMCPOptions &
     AnthropicServiceTierOptions &
@@ -425,6 +434,7 @@ const CLAUDE_FABLE_5 = {
   },
 } as const satisfies ModelMeta<
   AnthropicContainerOptions &
+    AnthropicCacheControlOptions &
     AnthropicContextManagementOptions &
     AnthropicMCPOptions &
     AnthropicServiceTierOptions &
@@ -472,6 +482,7 @@ const CLAUDE_SONNET_5 = {
   },
 } as const satisfies ModelMeta<
   AnthropicContainerOptions &
+    AnthropicCacheControlOptions &
     AnthropicContextManagementOptions &
     AnthropicMCPOptions &
     AnthropicServiceTierOptions &
@@ -613,6 +624,7 @@ export type AnthropicChatModelProviderOptionsByName = {
   // 4.6 generation: adaptive thinking plus the deprecated budget-based
   // shape; sampling parameters still accepted.
   [CLAUDE_OPUS_4_6.id]: AnthropicContainerOptions &
+    AnthropicCacheControlOptions &
     AnthropicContextManagementOptions &
     AnthropicMCPOptions &
     AnthropicServiceTierOptions &
@@ -621,6 +633,7 @@ export type AnthropicChatModelProviderOptionsByName = {
     AnthropicToolChoiceOptions &
     AnthropicSamplingOptions
   [CLAUDE_SONNET_4_6.id]: AnthropicContainerOptions &
+    AnthropicCacheControlOptions &
     AnthropicContextManagementOptions &
     AnthropicMCPOptions &
     AnthropicServiceTierOptions &
@@ -631,6 +644,7 @@ export type AnthropicChatModelProviderOptionsByName = {
 
   // Pre-4.6 models: budget-based extended thinking and sampling parameters.
   [CLAUDE_OPUS_4_5.id]: AnthropicContainerOptions &
+    AnthropicCacheControlOptions &
     AnthropicContextManagementOptions &
     AnthropicMCPOptions &
     AnthropicServiceTierOptions &
@@ -639,6 +653,7 @@ export type AnthropicChatModelProviderOptionsByName = {
     AnthropicToolChoiceOptions &
     AnthropicSamplingOptions
   [CLAUDE_SONNET_4_5.id]: AnthropicContainerOptions &
+    AnthropicCacheControlOptions &
     AnthropicContextManagementOptions &
     AnthropicMCPOptions &
     AnthropicServiceTierOptions &
@@ -647,6 +662,7 @@ export type AnthropicChatModelProviderOptionsByName = {
     AnthropicToolChoiceOptions &
     AnthropicSamplingOptions
   [CLAUDE_HAIKU_4_5.id]: AnthropicContainerOptions &
+    AnthropicCacheControlOptions &
     AnthropicContextManagementOptions &
     AnthropicMCPOptions &
     AnthropicServiceTierOptions &
@@ -655,6 +671,7 @@ export type AnthropicChatModelProviderOptionsByName = {
     AnthropicToolChoiceOptions &
     AnthropicSamplingOptions
   [CLAUDE_OPUS_4_1.id]: AnthropicContainerOptions &
+    AnthropicCacheControlOptions &
     AnthropicContextManagementOptions &
     AnthropicMCPOptions &
     AnthropicServiceTierOptions &
@@ -666,6 +683,7 @@ export type AnthropicChatModelProviderOptionsByName = {
   // Opus 4.7/4.8: adaptive thinking (or explicit disable), no
   // budget_tokens, no sampling parameters — see the constants above.
   [CLAUDE_OPUS_4_7.id]: AnthropicContainerOptions &
+    AnthropicCacheControlOptions &
     AnthropicContextManagementOptions &
     AnthropicMCPOptions &
     AnthropicServiceTierOptions &
@@ -675,6 +693,7 @@ export type AnthropicChatModelProviderOptionsByName = {
     AnthropicMaxTokensOptions &
     AnthropicOutputConfigOptions
   [CLAUDE_OPUS_4_8.id]: AnthropicContainerOptions &
+    AnthropicCacheControlOptions &
     AnthropicContextManagementOptions &
     AnthropicMCPOptions &
     AnthropicServiceTierOptions &
@@ -687,6 +706,7 @@ export type AnthropicChatModelProviderOptionsByName = {
   // Claude Fable 5: thinking always on (adaptive-only config); sampling
   // parameters removed — see the CLAUDE_FABLE_5 constant above.
   [CLAUDE_FABLE_5.id]: AnthropicContainerOptions &
+    AnthropicCacheControlOptions &
     AnthropicContextManagementOptions &
     AnthropicMCPOptions &
     AnthropicServiceTierOptions &
@@ -699,6 +719,7 @@ export type AnthropicChatModelProviderOptionsByName = {
   // allowed; no budget_tokens, no sampling parameters — see the
   // CLAUDE_SONNET_5 constant above.
   [CLAUDE_SONNET_5.id]: AnthropicContainerOptions &
+    AnthropicCacheControlOptions &
     AnthropicContextManagementOptions &
     AnthropicMCPOptions &
     AnthropicServiceTierOptions &

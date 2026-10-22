@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import {
   chat,
+  streamToText,
   StreamProcessor,
   type Tool,
   type StreamChunk,
@@ -110,6 +111,28 @@ function createTextStream(text: string) {
 describe('Anthropic adapter option mapping', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+  })
+
+  it.each([
+    { type: 'ephemeral' },
+    { type: 'ephemeral', ttl: '5m' },
+    { type: 'ephemeral', ttl: '1h' },
+  ] as const)('forwards automatic prompt caching %j', async (cache_control) => {
+    mocks.betaMessagesCreate.mockResolvedValueOnce(createTextStream('Hello'))
+
+    const result = await streamToText(
+      chat({
+        adapter: createAdapter('claude-opus-4-1'),
+        messages: [{ role: 'user', content: 'Hi' }],
+        modelOptions: { cache_control },
+      }),
+    )
+
+    expect(result).toBe('Hello')
+    expect(mocks.betaMessagesCreate).toHaveBeenCalledWith(
+      expect.objectContaining({ cache_control }),
+      expect.anything(),
+    )
   })
 
   it('passes systemPrompts as TextBlockParam[] for prompt caching support', async () => {

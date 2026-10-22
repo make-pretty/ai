@@ -126,6 +126,7 @@ export const Route = createFileRoute('/api/anthropic-skills-wire')({
         try {
           for await (const chunk of chat({
             ...createChatOptions({ adapter }),
+            modelOptions: { cache_control: { type: 'ephemeral' } },
             messages: [
               {
                 role: 'user',

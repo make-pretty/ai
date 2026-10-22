@@ -42,7 +42,7 @@ test.describe('anthropic — code_execution skills wire format', () => {
     expect(betaHeader).toContain('skills-2025-10-02')
   })
 
-  test('request body container.skills contains the skill reference', async ({
+  test('preserves hosted skills with automatic prompt caching', async ({
     request,
   }) => {
     const res = await request.post('/api/anthropic-skills-wire')
@@ -64,6 +64,7 @@ test.describe('anthropic — code_execution skills wire format', () => {
     expect(capturedRequest).not.toBeNull()
     const body = capturedRequest?.body as Record<string, unknown>
     expect(body).not.toBeNull()
+    expect(body['cache_control']).toEqual({ type: 'ephemeral' })
 
     const container = body['container'] as
       | { skills?: Array<Record<string, unknown>> }
