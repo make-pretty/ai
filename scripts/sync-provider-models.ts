@@ -451,35 +451,38 @@ function insertConstants(content: string, constants: Array<string>): string {
   return content.slice(0, exportIndex) + block + content.slice(exportIndex)
 }
 
-/**
- * Add entries to an array like: export const ARRAY_NAME = [ ... ] as const
- * Uses a regex with the `s` flag (dotAll) to match across newlines.
- */
 function addToArray(
   content: string,
   arrayName: string,
   entries: Array<string>,
   arrayRef: string,
 ): string {
-  // Match the array declaration: export const ARRAY_NAME = [...] as const
   // Uses [\s\S]*? (non-greedy) instead of [^\]]* to handle ] inside comments
   const pattern = new RegExp(
-    `(export const ${arrayName} = \\[\\s*[\\s\\S]*?)(\\] as const)`,
+    `(export const ${arrayName} = \\[)([\\s\\S]*?)(\\] as const)`,
   )
-  const match = pattern.exec(content)
-  if (!match) {
-    console.warn(`  Warning: Could not find array '${arrayName}' in file`)
-    return content
-  }
-
   const newEntries = entries
     .map((constName) => `  ${constName}${arrayRef},`)
     .join('\n')
-  // Use replacer function to prevent $-character interpretation in replacement string
-  return content.replace(
+  const updated = content.replace(
     pattern,
-    () => `${match[1]}\n${newEntries}\n${match[2]}`,
+    (_match, start: string, body: string, end: string) => {
+      let existingEntries = body.trimEnd()
+      const lastToken = Array.from(
+        existingEntries.matchAll(/\/\/[^\r\n]*|\/\*[\s\S]*?\*\/|[^\s/,]+|,/g),
+      ).findLast(([token]) => !token.startsWith('/'))
+      if (lastToken && lastToken[0] !== ',') {
+        const offset = lastToken.index + lastToken[0].length
+        existingEntries =
+          existingEntries.slice(0, offset) + ',' + existingEntries.slice(offset)
+      }
+      return `${start}${existingEntries}\n${newEntries}\n${end}`
+    },
   )
+  if (updated === content) {
+    console.warn(`  Warning: Could not find array '${arrayName}' in file`)
+  }
+  return updated
 }
 
 /**
