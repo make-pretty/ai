@@ -10,6 +10,7 @@
 import { writeFile } from 'node:fs/promises'
 import { models } from './openrouter.models'
 import type { OpenRouterModel } from './openrouter.models'
+import type { OpenRouterBaseOptions } from '../packages/ai-openrouter/src/text/text-provider-options'
 
 type InputModality = 'text' | 'image' | 'audio' | 'video' | 'document'
 
@@ -45,7 +46,6 @@ const perModelInputModalities: Record<string, string> = {}
 
 const imageModels = new Set<string>([])
 const chatModels = new Set<string>([])
-const videoModels = new Set<string>([])
 
 function generateChatModelsArray(): string {
   const modelIds = Array.from(chatModels)
@@ -83,16 +83,6 @@ function generateImageModelsArray(): string {
     return ''
   }
   return `export const OPENROUTER_IMAGE_MODELS = [\n${modelIds
-    .map((id) => `  ${id},`)
-    .join('\n')}\n] as const`
-}
-
-function generateVideoModelsArray(): string {
-  const modelIds = Array.from(videoModels)
-  if (modelIds.length === 0) {
-    return ''
-  }
-  return `export const OPENROUTER_VIDEO_MODELS = [\n${modelIds
     .map((id) => `  ${id},`)
     .join('\n')}\n] as const`
 }
@@ -135,6 +125,24 @@ function createPerModelInputModalities(): string {
     '\n',
   )}\n}`
 }
+
+const paramNameMap = new Map<string, keyof OpenRouterBaseOptions>([
+  ['frequency_penalty', 'frequencyPenalty'],
+  ['logit_bias', 'logitBias'],
+  ['logprobs', 'logprobs'],
+  ['max_completion_tokens', 'maxCompletionTokens'],
+  ['max_tokens', 'maxCompletionTokens'],
+  ['parallel_tool_calls', 'parallelToolCalls'],
+  ['presence_penalty', 'presencePenalty'],
+  ['reasoning', 'reasoning'],
+  ['response_format', 'responseFormat'],
+  ['seed', 'seed'],
+  ['stop', 'stop'],
+  ['temperature', 'temperature'],
+  ['tool_choice', 'toolChoice'],
+  ['top_logprobs', 'topLogprobs'],
+  ['top_p', 'topP'],
+])
 
 function generateModelMetaString(model: OpenRouterModel): string {
   const inputModalities = model.architecture.input_modalities
@@ -181,9 +189,6 @@ function generateModelMetaString(model: OpenRouterModel): string {
   if (outputModalities.includes('image')) {
     imageModels.add(`${constName}.id`)
   }
-  if (outputModalities.includes('video')) {
-    videoModels.add(`${constName}.id`)
-  }
   const inputPrice = convertPricing(model.pricing.prompt)
   const outputPrice = convertPricing(model.pricing.completion)
   const imagePrice = convertPricing(model.pricing.image ?? '0', true)
@@ -194,39 +199,11 @@ function generateModelMetaString(model: OpenRouterModel): string {
     model.pricing.input_cache_write ?? '0',
   )
 
-  const paramNameMap: Record<string, string> = {
-    max_tokens: 'maxCompletionTokens',
-    frequency_penalty: 'frequencyPenalty',
-    presence_penalty: 'presencePenalty',
-    repetition_penalty: 'repetitionPenalty',
-    logit_bias: 'logitBias',
-    top_logprobs: 'topLogprobs',
-    top_k: 'topK',
-    top_p: 'topP',
-    top_a: 'topA',
-    min_p: 'minP',
-    response_format: 'responseFormat',
-    tool_choice: 'toolChoice',
-    include_reasoning: 'includeReasoning',
-    max_completion_tokens: 'maxCompletionTokens',
-    web_search_options: 'webSearchOptions',
-    parallel_tool_calls: 'parallelToolCalls',
-  }
-  // The @openrouter/sdk's ChatRequest$outboundSchema strips any keys it
-  // doesn't declare, so these arrive at OpenRouter as empty. We omit them
-  // from the public type surface to avoid silently no-op'ing user input.
-  const excludedParams = new Set([
-    'tools',
-    'reasoning_effort',
-    'structured_outputs',
-    'top_k',
-    'top_a',
-    'min_p',
-    'repetition_penalty',
-    'include_reasoning',
-    'verbosity',
-    'web_search_options',
-  ])
+  const supportedParams =
+    model.supported_parameters
+      ?.map((param) => paramNameMap.get(param))
+      .filter((param) => param !== undefined)
+      .map((param) => `'${param}'`) ?? []
 
   // Build the object as a formatted string
   const lines: Array<string> = []
@@ -240,14 +217,7 @@ function generateModelMetaString(model: OpenRouterModel): string {
   lines.push(
     `      output: [${outputModalities.map((m) => `'${m}'`).join(', ')}],`,
   )
-  lines.push(
-    `      supports: [${
-      model.supported_parameters
-        ?.filter((p) => !excludedParams.has(p))
-        .map((p) => `'${paramNameMap[p] ?? p}'`)
-        .join(', ') || ''
-    }],`,
-  )
+  lines.push(`      supports: [${supportedParams.join(', ')}],`)
   lines.push(`    },`)
 
   if (model.context_length) {
@@ -274,14 +244,6 @@ function generateModelMetaString(model: OpenRouterModel): string {
   lines.push(`    },`)
   lines.push(`  } as const`)
 
-  const supportedParams =
-    model.supported_parameters
-      ?.map((p) => {
-        if (excludedParams.has(p)) return ''
-        const mapped = paramNameMap[p] ?? p
-        return `'${mapped}'`
-      })
-      .filter(Boolean) ?? []
   perModelProviderOptions[`${constName}.id`] =
     supportedParams.length > 0
       ? `OpenRouterCommonOptions & Pick<OpenRouterBaseOptions,${
@@ -321,7 +283,6 @@ ${createPerModelInputModalities()}
 ${generateChatModelsArray()}
 
 ${generateChatToolCapabilitiesType()}
-${generateVideoModelsArray()}
 ${generateImageModelsArray()}
 `
 console.log(file)
