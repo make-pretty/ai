@@ -1,14 +1,6 @@
 /**
- * Syncs OpenRouter models into native provider model-meta.ts files.
- *
- * For each supported provider (OpenAI, Anthropic, Gemini, Grok), this script:
- * 1. Reads the OpenRouter model list
- * 2. Filters models matching the provider prefix
- * 3. Identifies models missing from the provider's model-meta.ts
- * 4. Generates and inserts new model constants, array entries, and type map entries
- *
- * Usage:
- *   pnpm tsx scripts/sync-provider-models.ts
+ * Syncs native OpenAI and Gemini chat models from OpenRouter.
+ * Claude IDs and xAI Responses support are curated in their native adapters.
  */
 
 import { execFileSync } from 'node:child_process'
@@ -33,8 +25,6 @@ interface ProviderConfig {
   /** npm package name for changeset */
   packageName: string
   metaFile: string
-  /** How array entries reference the constant, e.g. '.name' or '.id' */
-  arrayRef: '.name' | '.id'
   /** Which field name is used for context window size */
   contextField: 'context_window' | 'max_input_tokens'
   /** Name of the exported chat model array */
@@ -43,13 +33,6 @@ interface ProviderConfig {
   providerOptionsTypeName: string
   /** Name of the input modalities type map */
   inputModalitiesTypeName: string
-  /**
-   * Name of the runtime `Record<string, number>` mapping model id →
-   * `max_output_tokens`, if the provider maintains one. Anthropic uses this to
-   * default the required `max_tokens` request field to the model's real ceiling
-   * (issue #849); other providers treat token limits as optional and omit it.
-   */
-  maxOutputTokensMapName?: string
   /** The supports block template (minus input modalities, which come from OpenRouter) */
   referenceSupportsBody: string
   /** Valid input modality types for this provider's ModelMeta interface */
@@ -58,10 +41,6 @@ interface ProviderConfig {
   referenceSatisfies: string
   /** The type string for provider options map entries */
   referenceProviderOptionsEntry: string
-  /** Whether this provider has both name AND id fields */
-  hasBothNameAndId: boolean
-  /** Whether the provider options type is a mapped type (skip insertion) */
-  providerOptionsIsMappedType: boolean
   /** Model ID patterns to always skip (matched against stripped ID) */
   skipPatterns: Array<string>
 }
@@ -70,7 +49,6 @@ const PROVIDER_MAP: Record<string, ProviderConfig> = {
   'openai/': {
     packageName: '@tanstack/ai-openai',
     metaFile: resolve(ROOT, 'packages/ai-openai/src/model-meta.ts'),
-    arrayRef: '.name',
     contextField: 'context_window',
     chatArrayName: 'OPENAI_CHAT_MODELS',
     providerOptionsTypeName: 'OpenAIChatModelProviderOptionsByName',
@@ -84,8 +62,6 @@ const PROVIDER_MAP: Record<string, ProviderConfig> = {
       'ModelMeta<OpenAIBaseOptions & OpenAIReasoningOptions & OpenAIStructuredOutputOptions & OpenAIToolsOptions & OpenAIStreamingOptions & OpenAIMetadataOptions>',
     referenceProviderOptionsEntry:
       'OpenAIBaseOptions & OpenAIReasoningOptions & OpenAIStructuredOutputOptions & OpenAIToolsOptions & OpenAIStreamingOptions & OpenAIMetadataOptions',
-    hasBothNameAndId: false,
-    providerOptionsIsMappedType: false,
     skipPatterns: [
       'gpt-3.5-', // Legacy GPT-3.5 models
       'gpt-4-', // Legacy GPT-4 base models (not 4.1+)
@@ -94,31 +70,9 @@ const PROVIDER_MAP: Record<string, ProviderConfig> = {
       'chatgpt-', // ChatGPT branded models
     ],
   },
-  'anthropic/': {
-    packageName: '@tanstack/ai-anthropic',
-    metaFile: resolve(ROOT, 'packages/ai-anthropic/src/model-meta.ts'),
-    arrayRef: '.id',
-    contextField: 'context_window',
-    chatArrayName: 'ANTHROPIC_MODELS',
-    providerOptionsTypeName: 'AnthropicChatModelProviderOptionsByName',
-    inputModalitiesTypeName: 'AnthropicModelInputModalitiesByName',
-    maxOutputTokensMapName: 'ANTHROPIC_MODEL_MAX_OUTPUT_TOKENS',
-    validInputModalities: ['text', 'image', 'audio', 'video', 'document'],
-    referenceSupportsBody: `    extended_thinking: true,
-    priority_tier: true,
-    tools: ['web_search', 'web_fetch', 'code_execution', 'computer_use', 'bash', 'text_editor', 'memory'],`,
-    referenceSatisfies:
-      'ModelMeta<AnthropicContainerOptions & AnthropicCacheControlOptions & AnthropicContextManagementOptions & AnthropicMCPOptions & AnthropicServiceTierOptions & AnthropicStopSequencesOptions & AnthropicThinkingOptions & AnthropicToolChoiceOptions & AnthropicSamplingOptions>',
-    referenceProviderOptionsEntry:
-      'AnthropicContainerOptions & AnthropicCacheControlOptions & AnthropicContextManagementOptions & AnthropicMCPOptions & AnthropicServiceTierOptions & AnthropicStopSequencesOptions & AnthropicThinkingOptions & AnthropicToolChoiceOptions & AnthropicSamplingOptions',
-    hasBothNameAndId: true,
-    providerOptionsIsMappedType: false,
-    skipPatterns: [],
-  },
   'google/': {
     packageName: '@tanstack/ai-gemini',
     metaFile: resolve(ROOT, 'packages/ai-gemini/src/model-meta.ts'),
-    arrayRef: '.name',
     contextField: 'max_input_tokens',
     chatArrayName: 'GEMINI_MODELS',
     providerOptionsTypeName: 'GeminiChatModelProviderOptionsByName',
@@ -131,29 +85,9 @@ const PROVIDER_MAP: Record<string, ProviderConfig> = {
       'ModelMeta<GeminiToolConfigOptions & GeminiSafetyOptions & GeminiCommonConfigOptions & GeminiCachedContentOptions & GeminiStructuredOutputOptions & GeminiThinkingOptions>',
     referenceProviderOptionsEntry:
       'GeminiToolConfigOptions & GeminiSafetyOptions & GeminiCommonConfigOptions & GeminiCachedContentOptions & GeminiStructuredOutputOptions & GeminiThinkingOptions',
-    hasBothNameAndId: false,
-    providerOptionsIsMappedType: false,
     skipPatterns: [
       'gemma-', // Gemma open-source models (not Gemini API models)
     ],
-  },
-  'x-ai/': {
-    packageName: '@tanstack/ai-grok',
-    metaFile: resolve(ROOT, 'packages/ai-grok/src/model-meta.ts'),
-    arrayRef: '.name',
-    contextField: 'context_window',
-    chatArrayName: 'GROK_CHAT_MODELS',
-    providerOptionsTypeName: 'GrokChatModelProviderOptionsByName',
-    inputModalitiesTypeName: 'GrokModelInputModalitiesByName',
-    validInputModalities: ['text', 'image', 'audio', 'video', 'document'],
-    referenceSupportsBody: `    output: ['text'],
-    capabilities: ['reasoning', 'structured_outputs', 'tool_calling'],
-    tools: [],`,
-    referenceSatisfies: 'ModelMeta',
-    referenceProviderOptionsEntry: 'GrokProviderOptions',
-    hasBothNameAndId: false,
-    providerOptionsIsMappedType: true,
-    skipPatterns: [],
   },
 }
 
@@ -372,11 +306,6 @@ function generateModelConstant(
   // name field
   lines.push(`  name: '${strippedId}',`)
 
-  // id field (Anthropic has both name and id, set to same value for new models)
-  if (config.hasBothNameAndId) {
-    lines.push(`  id: '${strippedId}',`)
-  }
-
   // context / max_input_tokens
   if (model.context_length > 0) {
     lines.push(
@@ -455,14 +384,13 @@ function addToArray(
   content: string,
   arrayName: string,
   entries: Array<string>,
-  arrayRef: string,
 ): string {
   // Uses [\s\S]*? (non-greedy) instead of [^\]]* to handle ] inside comments
   const pattern = new RegExp(
     `(export const ${arrayName} = \\[)([\\s\\S]*?)(\\] as const)`,
   )
   const newEntries = entries
-    .map((constName) => `  ${constName}${arrayRef},`)
+    .map((constName) => `  ${constName}.name,`)
     .join('\n')
   const updated = content.replace(
     pattern,
@@ -503,34 +431,6 @@ function addToTypeMap(
   const match = pattern.exec(content)
   if (!match) {
     console.warn(`  Warning: Could not find type map '${typeName}' in file`)
-    return content
-  }
-
-  const newEntries = entries.join('\n')
-  // Use replacer function to prevent $-character interpretation in replacement string
-  return content.replace(pattern, () => `${match[1]}\n${newEntries}${match[2]}`)
-}
-
-/**
- * Add entries to a runtime object literal like:
- *   const MAP_NAME: Record<string, number> = {
- *     ...existing entries...
- *   }
- * Used for the Anthropic id → max_output_tokens map (issue #849), which is a
- * value declaration rather than a `type` alias.
- */
-function addToObjectMap(
-  content: string,
-  mapName: string,
-  entries: Array<string>,
-): string {
-  // Match: const MAP_NAME: Record<string, number> = { ... \n}
-  const pattern = new RegExp(
-    `(const ${mapName}: Record<string, number> = \\{[\\s\\S]*?)(\\n\\})`,
-  )
-  const match = pattern.exec(content)
-  if (!match) {
-    console.warn(`  Warning: Could not find object map '${mapName}' in file`)
     return content
   }
 
@@ -700,7 +600,6 @@ async function main() {
         content,
         config.chatArrayName,
         chatModels.map(({ constName }) => constName),
-        config.arrayRef,
       )
     }
 
@@ -708,25 +607,22 @@ async function main() {
     // Image model arrays have specialized type maps (sizes, provider options)
     // that require manual curation.
 
-    // Add to provider options type map (skip for Grok - uses mapped type)
-    if (!config.providerOptionsIsMappedType && chatModels.length > 0) {
+    if (chatModels.length > 0) {
       const providerOptionsEntries = chatModels.map(
         ({ constName }) =>
-          `  [${constName}${config.arrayRef}]: ${config.referenceProviderOptionsEntry}`,
+          `  [${constName}.name]: ${config.referenceProviderOptionsEntry}`,
       )
-      if (providerOptionsEntries.length > 0) {
-        content = addToTypeMap(
-          content,
-          config.providerOptionsTypeName,
-          providerOptionsEntries,
-        )
-      }
+      content = addToTypeMap(
+        content,
+        config.providerOptionsTypeName,
+        providerOptionsEntries,
+      )
     }
 
     // Add to input modalities type map
     const modalityEntries = chatModels.map(
       ({ constName }) =>
-        `  [${constName}${config.arrayRef}]: typeof ${constName}.supports.input`,
+        `  [${constName}.name]: typeof ${constName}.supports.input`,
     )
     if (modalityEntries.length > 0) {
       content = addToTypeMap(
@@ -734,28 +630,6 @@ async function main() {
         config.inputModalitiesTypeName,
         modalityEntries,
       )
-    }
-
-    // Add to the id → max_output_tokens runtime map (Anthropic only). Only
-    // models whose generated constant actually carries `max_output_tokens`
-    // (i.e. OpenRouter reported a `max_completion_tokens`) get an entry; the
-    // rest correctly fall through to the map's constant default. Keeps the map
-    // in lockstep with the chat-model array so a synced model resolves to its
-    // real ceiling instead of the fallback (issue #849).
-    if (config.maxOutputTokensMapName) {
-      const maxOutputEntries = chatModels
-        .filter(({ model }) => model.top_provider.max_completion_tokens)
-        .map(
-          ({ constName }) =>
-            `  [${constName}${config.arrayRef}]: ${constName}.max_output_tokens,`,
-        )
-      if (maxOutputEntries.length > 0) {
-        content = addToObjectMap(
-          content,
-          config.maxOutputTokensMapName,
-          maxOutputEntries,
-        )
-      }
     }
 
     // Write the modified file
