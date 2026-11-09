@@ -2177,6 +2177,726 @@ const GPT_CHAT_LATEST = {
     OpenAIMetadataOptions
 >
 
+const GPT_5_6_LUNA = {
+  name: 'gpt-5.6-luna',
+  context_window: 1_050_000,
+  max_output_tokens: 128_000,
+  supports: {
+    input: ['image', 'text'],
+    output: ['text'],
+    endpoints: ['chat', 'chat-completions'],
+    features: [
+      'streaming',
+      'function_calling',
+      'structured_outputs',
+      'distillation',
+    ],
+    tools: [
+      'web_search',
+      'web_search_preview',
+      'file_search',
+      'image_generation',
+      'code_interpreter',
+      'mcp',
+      'computer_use',
+      'local_shell',
+      'shell',
+      'apply_patch',
+    ],
+  },
+  pricing: {
+    input: {
+      normal: 0.2,
+      cached: 0.02,
+    },
+    output: {
+      normal: 1.2,
+    },
+  },
+} as const satisfies ModelMeta<
+  OpenAIBaseOptions &
+    OpenAIReasoningOptions &
+    OpenAIStructuredOutputOptions &
+    OpenAIToolsOptions &
+    OpenAIStreamingOptions &
+    OpenAIMetadataOptions
+>
+
+const GPT_5_6_LUNA_PRO = {
+  name: 'gpt-5.6-luna-pro',
+  context_window: 1_050_000,
+  max_output_tokens: 128_000,
+  supports: {
+    input: ['image', 'text'],
+    output: ['text'],
+    endpoints: ['chat', 'chat-completions'],
+    features: [
+      'streaming',
+      'function_calling',
+      'structured_outputs',
+      'distillation',
+    ],
+    tools: [
+      'web_search',
+      'web_search_preview',
+      'file_search',
+      'image_generation',
+      'code_interpreter',
+      'mcp',
+      'computer_use',
+      'local_shell',
+      'shell',
+      'apply_patch',
+    ],
+  },
+  pricing: {
+    input: {
+      normal: 0.2,
+      cached: 0.02,
+    },
+    output: {
+      normal: 1.2,
+    },
+  },
+} as const satisfies ModelMeta<
+  OpenAIBaseOptions &
+    OpenAIReasoningOptions &
+    OpenAIStructuredOutputOptions &
+    OpenAIToolsOptions &
+    OpenAIStreamingOptions &
+    OpenAIMetadataOptions
+>
+
+const GPT_5_6_SOL = {
+  name: 'gpt-5.6-sol',
+  context_window: 1_050_000,
+  max_output_tokens: 128_000,
+  supports: {
+    input: ['image', 'text'],
+    output: ['text'],
+    endpoints: ['chat', 'chat-completions'],
+    features: [
+      'streaming',
+      'function_calling',
+      'structured_outputs',
+      'distillation',
+    ],
+    tools: [
+      'web_search',
+      'web_search_preview',
+      'file_search',
+      'image_generation',
+      'code_interpreter',
+      'mcp',
+      'computer_use',
+      'local_shell',
+      'shell',
+      'apply_patch',
+    ],
+  },
+  pricing: {
+    input: {
+      normal: 4,
+      cached: 0.4,
+    },
+    output: {
+      normal: 20,
+    },
+  },
+} as const satisfies ModelMeta<
+  OpenAIBaseOptions &
+    OpenAIReasoningOptions &
+    OpenAIStructuredOutputOptions &
+    OpenAIToolsOptions &
+    OpenAIStreamingOptions &
+    OpenAIMetadataOptions
+>
+
+const GPT_5_6_SOL_PRO = {
+  name: 'gpt-5.6-sol-pro',
+  context_window: 1_050_000,
+  max_output_tokens: 128_000,
+  supports: {
+    input: ['image', 'text'],
+    output: ['text'],
+    endpoints: ['chat', 'chat-completions'],
+    features: [
+      'streaming',
+      'function_calling',
+      'structured_outputs',
+      'distillation',
+    ],
+    tools: [
+      'web_search',
+      'web_search_preview',
+      'file_search',
+      'image_generation',
+      'code_interpreter',
+      'mcp',
+      'computer_use',
+      'local_shell',
+      'shell',
+      'apply_patch',
+    ],
+  },
+  pricing: {
+    input: {
+      normal: 4,
+      cached: 0.4,
+    },
+    output: {
+      normal: 20,
+    },
+  },
+} as const satisfies ModelMeta<
+  OpenAIBaseOptions &
+    OpenAIReasoningOptions &
+    OpenAIStructuredOutputOptions &
+    OpenAIToolsOptions &
+    OpenAIStreamingOptions &
+    OpenAIMetadataOptions
+>
+
+const GPT_5_6_TERRA = {
+  name: 'gpt-5.6-terra',
+  context_window: 1_050_000,
+  max_output_tokens: 128_000,
+  supports: {
+    input: ['image', 'text'],
+    output: ['text'],
+    endpoints: ['chat', 'chat-completions'],
+    features: [
+      'streaming',
+      'function_calling',
+      'structured_outputs',
+      'distillation',
+    ],
+    tools: [
+      'web_search',
+      'web_search_preview',
+      'file_search',
+      'image_generation',
+      'code_interpreter',
+      'mcp',
+      'computer_use',
+      'local_shell',
+      'shell',
+      'apply_patch',
+    ],
+  },
+  pricing: {
+    input: {
+      normal: 2,
+      cached: 0.2,
+    },
+    output: {
+      normal: 12,
+    },
+  },
+} as const satisfies ModelMeta<
+  OpenAIBaseOptions &
+    OpenAIReasoningOptions &
+    OpenAIStructuredOutputOptions &
+    OpenAIToolsOptions &
+    OpenAIStreamingOptions &
+    OpenAIMetadataOptions
+>
+
+const GPT_5_6_TERRA_PRO = {
+  name: 'gpt-5.6-terra-pro',
+  context_window: 1_050_000,
+  max_output_tokens: 128_000,
+  supports: {
+    input: ['image', 'text'],
+    output: ['text'],
+    endpoints: ['chat', 'chat-completions'],
+    features: [
+      'streaming',
+      'function_calling',
+      'structured_outputs',
+      'distillation',
+    ],
+    tools: [
+      'web_search',
+      'web_search_preview',
+      'file_search',
+      'image_generation',
+      'code_interpreter',
+      'mcp',
+      'computer_use',
+      'local_shell',
+      'shell',
+      'apply_patch',
+    ],
+  },
+  pricing: {
+    input: {
+      normal: 2,
+      cached: 0.2,
+    },
+    output: {
+      normal: 12,
+    },
+  },
+} as const satisfies ModelMeta<
+  OpenAIBaseOptions &
+    OpenAIReasoningOptions &
+    OpenAIStructuredOutputOptions &
+    OpenAIToolsOptions &
+    OpenAIStreamingOptions &
+    OpenAIMetadataOptions
+>
+
+const GPT_6_ASTRA = {
+  name: 'gpt-6-astra',
+  context_window: 1_050_000,
+  max_output_tokens: 128_000,
+  supports: {
+    input: ['image', 'text'],
+    output: ['text'],
+    endpoints: ['chat', 'chat-completions'],
+    features: [
+      'streaming',
+      'function_calling',
+      'structured_outputs',
+      'distillation',
+    ],
+    tools: [
+      'web_search',
+      'web_search_preview',
+      'file_search',
+      'image_generation',
+      'code_interpreter',
+      'mcp',
+      'computer_use',
+      'local_shell',
+      'shell',
+      'apply_patch',
+    ],
+  },
+  pricing: {
+    input: {
+      normal: 10,
+      cached: 1,
+    },
+    output: {
+      normal: 50,
+    },
+  },
+} as const satisfies ModelMeta<
+  OpenAIBaseOptions &
+    OpenAIReasoningOptions &
+    OpenAIStructuredOutputOptions &
+    OpenAIToolsOptions &
+    OpenAIStreamingOptions &
+    OpenAIMetadataOptions
+>
+
+const GPT_6_ASTRA_PRO = {
+  name: 'gpt-6-astra-pro',
+  context_window: 1_050_000,
+  max_output_tokens: 128_000,
+  supports: {
+    input: ['image', 'text'],
+    output: ['text'],
+    endpoints: ['chat', 'chat-completions'],
+    features: [
+      'streaming',
+      'function_calling',
+      'structured_outputs',
+      'distillation',
+    ],
+    tools: [
+      'web_search',
+      'web_search_preview',
+      'file_search',
+      'image_generation',
+      'code_interpreter',
+      'mcp',
+      'computer_use',
+      'local_shell',
+      'shell',
+      'apply_patch',
+    ],
+  },
+  pricing: {
+    input: {
+      normal: 10,
+      cached: 1,
+    },
+    output: {
+      normal: 50,
+    },
+  },
+} as const satisfies ModelMeta<
+  OpenAIBaseOptions &
+    OpenAIReasoningOptions &
+    OpenAIStructuredOutputOptions &
+    OpenAIToolsOptions &
+    OpenAIStreamingOptions &
+    OpenAIMetadataOptions
+>
+
+const GPT_6_LUNA = {
+  name: 'gpt-6-luna',
+  context_window: 1_050_000,
+  max_output_tokens: 128_000,
+  supports: {
+    input: ['image', 'text'],
+    output: ['text'],
+    endpoints: ['chat', 'chat-completions'],
+    features: [
+      'streaming',
+      'function_calling',
+      'structured_outputs',
+      'distillation',
+    ],
+    tools: [
+      'web_search',
+      'web_search_preview',
+      'file_search',
+      'image_generation',
+      'code_interpreter',
+      'mcp',
+      'computer_use',
+      'local_shell',
+      'shell',
+      'apply_patch',
+    ],
+  },
+  pricing: {
+    input: {
+      normal: 0.1,
+      cached: 0.01,
+    },
+    output: {
+      normal: 0.5,
+    },
+  },
+} as const satisfies ModelMeta<
+  OpenAIBaseOptions &
+    OpenAIReasoningOptions &
+    OpenAIStructuredOutputOptions &
+    OpenAIToolsOptions &
+    OpenAIStreamingOptions &
+    OpenAIMetadataOptions
+>
+
+const GPT_6_LUNA_PRO = {
+  name: 'gpt-6-luna-pro',
+  context_window: 1_050_000,
+  max_output_tokens: 128_000,
+  supports: {
+    input: ['image', 'text'],
+    output: ['text'],
+    endpoints: ['chat', 'chat-completions'],
+    features: [
+      'streaming',
+      'function_calling',
+      'structured_outputs',
+      'distillation',
+    ],
+    tools: [
+      'web_search',
+      'web_search_preview',
+      'file_search',
+      'image_generation',
+      'code_interpreter',
+      'mcp',
+      'computer_use',
+      'local_shell',
+      'shell',
+      'apply_patch',
+    ],
+  },
+  pricing: {
+    input: {
+      normal: 0.1,
+      cached: 0.01,
+    },
+    output: {
+      normal: 0.5,
+    },
+  },
+} as const satisfies ModelMeta<
+  OpenAIBaseOptions &
+    OpenAIReasoningOptions &
+    OpenAIStructuredOutputOptions &
+    OpenAIToolsOptions &
+    OpenAIStreamingOptions &
+    OpenAIMetadataOptions
+>
+
+const GPT_6_SOL = {
+  name: 'gpt-6-sol',
+  context_window: 1_050_000,
+  max_output_tokens: 128_000,
+  supports: {
+    input: ['image', 'text'],
+    output: ['text'],
+    endpoints: ['chat', 'chat-completions'],
+    features: [
+      'streaming',
+      'function_calling',
+      'structured_outputs',
+      'distillation',
+    ],
+    tools: [
+      'web_search',
+      'web_search_preview',
+      'file_search',
+      'image_generation',
+      'code_interpreter',
+      'mcp',
+      'computer_use',
+      'local_shell',
+      'shell',
+      'apply_patch',
+    ],
+  },
+  pricing: {
+    input: {
+      normal: 2,
+      cached: 0.2,
+    },
+    output: {
+      normal: 10,
+    },
+  },
+} as const satisfies ModelMeta<
+  OpenAIBaseOptions &
+    OpenAIReasoningOptions &
+    OpenAIStructuredOutputOptions &
+    OpenAIToolsOptions &
+    OpenAIStreamingOptions &
+    OpenAIMetadataOptions
+>
+
+const GPT_6_SOL_PRO = {
+  name: 'gpt-6-sol-pro',
+  context_window: 1_050_000,
+  max_output_tokens: 128_000,
+  supports: {
+    input: ['image', 'text'],
+    output: ['text'],
+    endpoints: ['chat', 'chat-completions'],
+    features: [
+      'streaming',
+      'function_calling',
+      'structured_outputs',
+      'distillation',
+    ],
+    tools: [
+      'web_search',
+      'web_search_preview',
+      'file_search',
+      'image_generation',
+      'code_interpreter',
+      'mcp',
+      'computer_use',
+      'local_shell',
+      'shell',
+      'apply_patch',
+    ],
+  },
+  pricing: {
+    input: {
+      normal: 2,
+      cached: 0.2,
+    },
+    output: {
+      normal: 10,
+    },
+  },
+} as const satisfies ModelMeta<
+  OpenAIBaseOptions &
+    OpenAIReasoningOptions &
+    OpenAIStructuredOutputOptions &
+    OpenAIToolsOptions &
+    OpenAIStreamingOptions &
+    OpenAIMetadataOptions
+>
+
+const GPT_6_1_SOL = {
+  name: 'gpt-6.1-sol',
+  context_window: 1_050_000,
+  max_output_tokens: 128_000,
+  supports: {
+    input: ['image', 'text'],
+    output: ['text'],
+    endpoints: ['chat', 'chat-completions'],
+    features: [
+      'streaming',
+      'function_calling',
+      'structured_outputs',
+      'distillation',
+    ],
+    tools: [
+      'web_search',
+      'web_search_preview',
+      'file_search',
+      'image_generation',
+      'code_interpreter',
+      'mcp',
+      'computer_use',
+      'local_shell',
+      'shell',
+      'apply_patch',
+    ],
+  },
+  pricing: {
+    input: {
+      normal: 2,
+      cached: 0.1,
+    },
+    output: {
+      normal: 10,
+    },
+  },
+} as const satisfies ModelMeta<
+  OpenAIBaseOptions &
+    OpenAIReasoningOptions &
+    OpenAIStructuredOutputOptions &
+    OpenAIToolsOptions &
+    OpenAIStreamingOptions &
+    OpenAIMetadataOptions
+>
+
+const GPT_6_1_SOL_PRO = {
+  name: 'gpt-6.1-sol-pro',
+  context_window: 1_050_000,
+  max_output_tokens: 128_000,
+  supports: {
+    input: ['image', 'text'],
+    output: ['text'],
+    endpoints: ['chat', 'chat-completions'],
+    features: [
+      'streaming',
+      'function_calling',
+      'structured_outputs',
+      'distillation',
+    ],
+    tools: [
+      'web_search',
+      'web_search_preview',
+      'file_search',
+      'image_generation',
+      'code_interpreter',
+      'mcp',
+      'computer_use',
+      'local_shell',
+      'shell',
+      'apply_patch',
+    ],
+  },
+  pricing: {
+    input: {
+      normal: 2,
+      cached: 0.1,
+    },
+    output: {
+      normal: 10,
+    },
+  },
+} as const satisfies ModelMeta<
+  OpenAIBaseOptions &
+    OpenAIReasoningOptions &
+    OpenAIStructuredOutputOptions &
+    OpenAIToolsOptions &
+    OpenAIStreamingOptions &
+    OpenAIMetadataOptions
+>
+
+const GPT_6_1_TERRA = {
+  name: 'gpt-6.1-terra',
+  context_window: 1_050_000,
+  max_output_tokens: 128_000,
+  supports: {
+    input: ['image', 'text'],
+    output: ['text'],
+    endpoints: ['chat', 'chat-completions'],
+    features: [
+      'streaming',
+      'function_calling',
+      'structured_outputs',
+      'distillation',
+    ],
+    tools: [
+      'web_search',
+      'web_search_preview',
+      'file_search',
+      'image_generation',
+      'code_interpreter',
+      'mcp',
+      'computer_use',
+      'local_shell',
+      'shell',
+      'apply_patch',
+    ],
+  },
+  pricing: {
+    input: {
+      normal: 1,
+      cached: 0.05,
+    },
+    output: {
+      normal: 5,
+    },
+  },
+} as const satisfies ModelMeta<
+  OpenAIBaseOptions &
+    OpenAIReasoningOptions &
+    OpenAIStructuredOutputOptions &
+    OpenAIToolsOptions &
+    OpenAIStreamingOptions &
+    OpenAIMetadataOptions
+>
+
+const GPT_6_1_TERRA_PRO = {
+  name: 'gpt-6.1-terra-pro',
+  context_window: 1_050_000,
+  max_output_tokens: 128_000,
+  supports: {
+    input: ['image', 'text'],
+    output: ['text'],
+    endpoints: ['chat', 'chat-completions'],
+    features: [
+      'streaming',
+      'function_calling',
+      'structured_outputs',
+      'distillation',
+    ],
+    tools: [
+      'web_search',
+      'web_search_preview',
+      'file_search',
+      'image_generation',
+      'code_interpreter',
+      'mcp',
+      'computer_use',
+      'local_shell',
+      'shell',
+      'apply_patch',
+    ],
+  },
+  pricing: {
+    input: {
+      normal: 1,
+      cached: 0.05,
+    },
+    output: {
+      normal: 5,
+    },
+  },
+} as const satisfies ModelMeta<
+  OpenAIBaseOptions &
+    OpenAIReasoningOptions &
+    OpenAIStructuredOutputOptions &
+    OpenAIToolsOptions &
+    OpenAIStreamingOptions &
+    OpenAIMetadataOptions
+>
+
 export const OPENAI_CHAT_MODELS = [
   // Frontier models
   GPT5_2.name,
@@ -2233,6 +2953,22 @@ export const OPENAI_CHAT_MODELS = [
   GPT_5_5.name,
   GPT_5_5_PRO.name,
   GPT_CHAT_LATEST.name,
+  GPT_5_6_LUNA.name,
+  GPT_5_6_LUNA_PRO.name,
+  GPT_5_6_SOL.name,
+  GPT_5_6_SOL_PRO.name,
+  GPT_5_6_TERRA.name,
+  GPT_5_6_TERRA_PRO.name,
+  GPT_6_ASTRA.name,
+  GPT_6_ASTRA_PRO.name,
+  GPT_6_LUNA.name,
+  GPT_6_LUNA_PRO.name,
+  GPT_6_SOL.name,
+  GPT_6_SOL_PRO.name,
+  GPT_6_1_SOL.name,
+  GPT_6_1_SOL_PRO.name,
+  GPT_6_1_TERRA.name,
+  GPT_6_1_TERRA_PRO.name,
 ] as const
 
 export type OpenAIChatModel = (typeof OPENAI_CHAT_MODELS)[number]
@@ -2523,6 +3259,102 @@ export type OpenAIChatModelProviderOptionsByName = {
     OpenAIToolsOptions &
     OpenAIStreamingOptions &
     OpenAIMetadataOptions
+  [GPT_5_6_LUNA.name]: OpenAIBaseOptions &
+    OpenAIReasoningOptions &
+    OpenAIStructuredOutputOptions &
+    OpenAIToolsOptions &
+    OpenAIStreamingOptions &
+    OpenAIMetadataOptions
+  [GPT_5_6_LUNA_PRO.name]: OpenAIBaseOptions &
+    OpenAIReasoningOptions &
+    OpenAIStructuredOutputOptions &
+    OpenAIToolsOptions &
+    OpenAIStreamingOptions &
+    OpenAIMetadataOptions
+  [GPT_5_6_SOL.name]: OpenAIBaseOptions &
+    OpenAIReasoningOptions &
+    OpenAIStructuredOutputOptions &
+    OpenAIToolsOptions &
+    OpenAIStreamingOptions &
+    OpenAIMetadataOptions
+  [GPT_5_6_SOL_PRO.name]: OpenAIBaseOptions &
+    OpenAIReasoningOptions &
+    OpenAIStructuredOutputOptions &
+    OpenAIToolsOptions &
+    OpenAIStreamingOptions &
+    OpenAIMetadataOptions
+  [GPT_5_6_TERRA.name]: OpenAIBaseOptions &
+    OpenAIReasoningOptions &
+    OpenAIStructuredOutputOptions &
+    OpenAIToolsOptions &
+    OpenAIStreamingOptions &
+    OpenAIMetadataOptions
+  [GPT_5_6_TERRA_PRO.name]: OpenAIBaseOptions &
+    OpenAIReasoningOptions &
+    OpenAIStructuredOutputOptions &
+    OpenAIToolsOptions &
+    OpenAIStreamingOptions &
+    OpenAIMetadataOptions
+  [GPT_6_ASTRA.name]: OpenAIBaseOptions &
+    OpenAIReasoningOptions &
+    OpenAIStructuredOutputOptions &
+    OpenAIToolsOptions &
+    OpenAIStreamingOptions &
+    OpenAIMetadataOptions
+  [GPT_6_ASTRA_PRO.name]: OpenAIBaseOptions &
+    OpenAIReasoningOptions &
+    OpenAIStructuredOutputOptions &
+    OpenAIToolsOptions &
+    OpenAIStreamingOptions &
+    OpenAIMetadataOptions
+  [GPT_6_LUNA.name]: OpenAIBaseOptions &
+    OpenAIReasoningOptions &
+    OpenAIStructuredOutputOptions &
+    OpenAIToolsOptions &
+    OpenAIStreamingOptions &
+    OpenAIMetadataOptions
+  [GPT_6_LUNA_PRO.name]: OpenAIBaseOptions &
+    OpenAIReasoningOptions &
+    OpenAIStructuredOutputOptions &
+    OpenAIToolsOptions &
+    OpenAIStreamingOptions &
+    OpenAIMetadataOptions
+  [GPT_6_SOL.name]: OpenAIBaseOptions &
+    OpenAIReasoningOptions &
+    OpenAIStructuredOutputOptions &
+    OpenAIToolsOptions &
+    OpenAIStreamingOptions &
+    OpenAIMetadataOptions
+  [GPT_6_SOL_PRO.name]: OpenAIBaseOptions &
+    OpenAIReasoningOptions &
+    OpenAIStructuredOutputOptions &
+    OpenAIToolsOptions &
+    OpenAIStreamingOptions &
+    OpenAIMetadataOptions
+  [GPT_6_1_SOL.name]: OpenAIBaseOptions &
+    OpenAIReasoningOptions &
+    OpenAIStructuredOutputOptions &
+    OpenAIToolsOptions &
+    OpenAIStreamingOptions &
+    OpenAIMetadataOptions
+  [GPT_6_1_SOL_PRO.name]: OpenAIBaseOptions &
+    OpenAIReasoningOptions &
+    OpenAIStructuredOutputOptions &
+    OpenAIToolsOptions &
+    OpenAIStreamingOptions &
+    OpenAIMetadataOptions
+  [GPT_6_1_TERRA.name]: OpenAIBaseOptions &
+    OpenAIReasoningOptions &
+    OpenAIStructuredOutputOptions &
+    OpenAIToolsOptions &
+    OpenAIStreamingOptions &
+    OpenAIMetadataOptions
+  [GPT_6_1_TERRA_PRO.name]: OpenAIBaseOptions &
+    OpenAIReasoningOptions &
+    OpenAIStructuredOutputOptions &
+    OpenAIToolsOptions &
+    OpenAIStreamingOptions &
+    OpenAIMetadataOptions
 }
 
 /**
@@ -2632,4 +3464,20 @@ export type OpenAIModelInputModalitiesByName = {
   [GPT_5_5.name]: typeof GPT_5_5.supports.input
   [GPT_5_5_PRO.name]: typeof GPT_5_5_PRO.supports.input
   [GPT_CHAT_LATEST.name]: typeof GPT_CHAT_LATEST.supports.input
+  [GPT_5_6_LUNA.name]: typeof GPT_5_6_LUNA.supports.input
+  [GPT_5_6_LUNA_PRO.name]: typeof GPT_5_6_LUNA_PRO.supports.input
+  [GPT_5_6_SOL.name]: typeof GPT_5_6_SOL.supports.input
+  [GPT_5_6_SOL_PRO.name]: typeof GPT_5_6_SOL_PRO.supports.input
+  [GPT_5_6_TERRA.name]: typeof GPT_5_6_TERRA.supports.input
+  [GPT_5_6_TERRA_PRO.name]: typeof GPT_5_6_TERRA_PRO.supports.input
+  [GPT_6_ASTRA.name]: typeof GPT_6_ASTRA.supports.input
+  [GPT_6_ASTRA_PRO.name]: typeof GPT_6_ASTRA_PRO.supports.input
+  [GPT_6_LUNA.name]: typeof GPT_6_LUNA.supports.input
+  [GPT_6_LUNA_PRO.name]: typeof GPT_6_LUNA_PRO.supports.input
+  [GPT_6_SOL.name]: typeof GPT_6_SOL.supports.input
+  [GPT_6_SOL_PRO.name]: typeof GPT_6_SOL_PRO.supports.input
+  [GPT_6_1_SOL.name]: typeof GPT_6_1_SOL.supports.input
+  [GPT_6_1_SOL_PRO.name]: typeof GPT_6_1_SOL_PRO.supports.input
+  [GPT_6_1_TERRA.name]: typeof GPT_6_1_TERRA.supports.input
+  [GPT_6_1_TERRA_PRO.name]: typeof GPT_6_1_TERRA_PRO.supports.input
 }
