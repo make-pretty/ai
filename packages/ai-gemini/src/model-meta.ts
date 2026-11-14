@@ -1013,6 +1013,74 @@ const GEMINI_OMNI_1_2_FLASH = {
     GeminiThinkingOptions
 >
 
+const GEMINI_4_CARBON = {
+  name: 'gemini-4-carbon',
+  max_input_tokens: 1_048_576,
+  max_output_tokens: 943_718,
+  supports: {
+    input: ['audio', 'document', 'image', 'text', 'video'],
+    output: ['text'],
+    capabilities: [
+      'batch_api',
+      'caching',
+      'function_calling',
+      'structured_output',
+      'thinking',
+    ],
+    tools: ['code_execution', 'file_search', 'google_search', 'url_context'],
+  },
+  pricing: {
+    input: {
+      normal: 2,
+      cached: 0.1,
+    },
+    output: {
+      normal: 10,
+    },
+  },
+} as const satisfies ModelMeta<
+  GeminiToolConfigOptions &
+    GeminiSafetyOptions &
+    GeminiCommonConfigOptions &
+    GeminiCachedContentOptions &
+    GeminiStructuredOutputOptions &
+    GeminiThinkingOptions
+>
+
+const GEMINI_4_HYDROGEN = {
+  name: 'gemini-4-hydrogen',
+  max_input_tokens: 1_048_576,
+  max_output_tokens: 943_718,
+  supports: {
+    input: ['audio', 'document', 'image', 'text', 'video'],
+    output: ['text'],
+    capabilities: [
+      'batch_api',
+      'caching',
+      'function_calling',
+      'structured_output',
+      'thinking',
+    ],
+    tools: ['code_execution', 'file_search', 'google_search', 'url_context'],
+  },
+  pricing: {
+    input: {
+      normal: 1.5,
+      cached: 0.075,
+    },
+    output: {
+      normal: 7.5,
+    },
+  },
+} as const satisfies ModelMeta<
+  GeminiToolConfigOptions &
+    GeminiSafetyOptions &
+    GeminiCommonConfigOptions &
+    GeminiCachedContentOptions &
+    GeminiStructuredOutputOptions &
+    GeminiThinkingOptions
+>
+
 export const GEMINI_MODELS = [
   GEMINI_3_5_FLASH.name,
   GEMINI_3_1_PRO.name,
@@ -1029,6 +1097,8 @@ export const GEMINI_MODELS = [
   GEMINI_4_ARGON.name,
   GEMINI_OMNI_1_1_FLASH.name,
   GEMINI_OMNI_1_2_FLASH.name,
+  GEMINI_4_CARBON.name,
+  GEMINI_4_HYDROGEN.name,
 ] as const
 
 /**
@@ -1233,6 +1303,18 @@ export type GeminiChatModelProviderOptionsByName = {
     GeminiCachedContentOptions &
     GeminiStructuredOutputOptions &
     GeminiThinkingOptions
+  [GEMINI_4_CARBON.name]: GeminiToolConfigOptions &
+    GeminiSafetyOptions &
+    GeminiCommonConfigOptions &
+    GeminiCachedContentOptions &
+    GeminiStructuredOutputOptions &
+    GeminiThinkingOptions
+  [GEMINI_4_HYDROGEN.name]: GeminiToolConfigOptions &
+    GeminiSafetyOptions &
+    GeminiCommonConfigOptions &
+    GeminiCachedContentOptions &
+    GeminiStructuredOutputOptions &
+    GeminiThinkingOptions
 }
 
 /**
@@ -1282,4 +1364,6 @@ export type GeminiModelInputModalitiesByName = {
   [GEMINI_4_ARGON.name]: typeof GEMINI_4_ARGON.supports.input
   [GEMINI_OMNI_1_1_FLASH.name]: typeof GEMINI_OMNI_1_1_FLASH.supports.input
   [GEMINI_OMNI_1_2_FLASH.name]: typeof GEMINI_OMNI_1_2_FLASH.supports.input
+  [GEMINI_4_CARBON.name]: typeof GEMINI_4_CARBON.supports.input
+  [GEMINI_4_HYDROGEN.name]: typeof GEMINI_4_HYDROGEN.supports.input
 }
